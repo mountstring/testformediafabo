@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<!-- hii -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>FABO</title>
+    <style>
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.main-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;  
+    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url("/images/Desk-bg.jpg");
+    background-position: center;
+    background-size: 100% 100%;
+    box-sizing: border-box;
+}
+
+.sidebar {
+    width: 20%;
+    height: auto;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-section {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-items: top;
+    margin-bottom: 10%;
+}
+
+.logo-section img {
+    width: 65%;
+    height: 80%;
+}
+
+.sbbuttons {
+    width: 100%;
+    height: 80%;
+  
+}
+
+ .sbbuttons > button {
+    width: 90%;
+    padding: 10px;
+    margin: 5% 0;
+    margin-bottom: 15px;   
+    background: linear-gradient(135deg, #ef4d79, #3d1b63);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: large;  
+    border: 2px solid white;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.sbbuttons button a{
+    text-decoration: none;
+    color: white;
+}
+
+.sbbuttons>button:hover {
+    background: linear-gradient(-135deg, #ef4d79, #3d1b63);
+    letter-spacing: 2px;
+}
+
+
+.submenu {
+    list-style-type: none;
+    padding: 0;
+    display: none;
+    margin: 0;
+}
+
+.submenu li  {
+    padding: 8px;
+    background: linear-gradient(135deg, #ef4d79, #3d1b63);
+    margin-bottom: 15px;
+    cursor: pointer;
+    width: 60%;
+    margin-left: 12%;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.submenu li a{
+    color: white;
+    text-decoration: none;
+     width: 100%;
+}
+
+.submenu li:hover {
+    background: linear-gradient(-135deg, #ef4d79, #3d1b63);
+    letter-spacing: 2px;
+}
+
+.submenu.show {
+    display: block;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 100vh;
+}
+
+.greeting {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: transform 0.5s ease-in-out;
+    width: 65%;
+    height: 80%;
+    cursor: pointer;
+}
+
+.greeting > .faboimg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+}
+
+.greeting > .faboimg > img{
+    width: 300px;
+    height: 300px;
+    margin-top: 30%;
+}
+
+.greeting > .text {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 50%;
+   text-align: center;
+   margin-bottom: 20%;
+}
+
+.greeting > .text >h3{
+    color: white;
+    width: 100%;
+    height: 100%;
+    font-size: 80px;
+}
+
+.greeting:hover .faboimg > img {
+    transform: translateX(-220px);
+    transition: 0.9s ease-in-out;
+}
+
+.greeting:not(:hover) .faboimg > img {
+    transform: translateX(0);
+    transition: 0.9s ease-in-out;
+}
+
+.greeting:hover h3 {
+    transform: translateX(150px);
+    transition: 0.9s ease-in-out;
+}
+
+.greeting:not(:hover) h3 {
+    transform: translateX(0);
+    transition: 0.9s ease-in-out;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 55%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 65%;
+    background: linear-gradient(-135deg, #3d1b63, #ef4d79);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    border: 1px solid white;
+    padding: 20px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 7%;
+    right: 5%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ef4d79;  
+}
+.card{
+    height: 94%;
+    width:95%;
+}
+
+.wrapper {
+    max-width: 790px;
+    width: 100%;
+    height: 100%;
+    background: #ddd;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+}
+
+.wrapper>.title {
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+    color: #3d1b63;
+}
+
+.wrapper .title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 30px;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+}
+
+.wrapper form .user-detail {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 30px 20px 0;
+    color: #3d1b63;
+    font-size: large;
+}
+
+form .user-detail .input-box  {
+    margin-bottom: 15px;
+    width: calc(100% / 3 - 30px);
+}
+
+select {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    border: 2px solid #ef4d79;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #ef4d79;
+    margin-top: 5px;
+    
+   
+
+}
+
+select option {
+    padding: 8px;
+    outline: none;
+
+}
+
+.user-detail .input-box input {
+    height: 35px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #3d1b63;
+    padding-left: 15px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    transition: all .3s ease;
+    
+}
+
+
+.user-detail .input-box textarea {
+    height: 130px; /* Set a fixed height for the textarea */
+    width:180%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #3d1b63;
+    padding-left: 15px;
+    font-size: 14px;
+    font-weight: 0;
+    border-bottom-width: 2px;
+    transition: all .3s ease;
+    overflow-y: auto; /* Add vertical scroll if content exceeds the fixed height */
+    resize: none; /* Disable resizing */
+    
+}
+
+.user-detail .input-box textarea:focus {
+    border-color: #ef4d79;
+}
+
+.user-detail .input-box textarea::placeholder {
+    font-size: large;
+    text-decoration: none;
+    padding-top: 8px;
+   
+}
+
+.user-detail .input-box input:focus,
+.user-detail .input-box input:valid {
+    border-color: #ef4d79;
+}
+
+
+.user-detail .input-box .details {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 20px; 
+}
+
+form .button {
+     display: flex;
+     flex-direction: row;
+     justify-content: right;
+     width: 100%;
+     height: 45px;
+     /* margin: 5px 0; */
+     margin-top:-10%;
+}
+
+
+
+form .button input {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 20%;
+    color: #fff;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 30px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+    border: 2px solid white;
+    margin: 0 2%;
+}
+
+
+form .button2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+    height: 45px;
+    margin: 5px 0;
+    
+}
+
+
+
+form .button2 input {
+   display: flex;
+   justify-content: center;
+   height: 100%;
+   width: 20%;
+   color: #fff;
+   outline: none;
+   border: none;
+   font-size: 18px;
+   font-weight: 500;
+   cursor: pointer;
+   border-radius: 30px;
+   letter-spacing: 1px;
+   background: linear-gradient(135deg, #3d1b63, #ef4d79);
+   border: 2px solid white;
+   margin: 0 2%;
+}
+
+
+form .button3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+    height: 45px;
+    margin: 5px 0;
+} 
+
+
+
+form .button3 input {
+   display: flex;
+   justify-content: center;
+   height: 100%;
+   width: 20%;
+   color: #fff;
+   outline: none;
+   border: none;
+   font-size: 18px;
+   font-weight: 500;
+   cursor: pointer;
+   border-radius: 30px;
+   letter-spacing: 1px;
+   background: linear-gradient(135deg, #3d1b63, #ef4d79);
+   border: 2px solid white;
+   margin: 0 2%;
+}
+
+
+.close-button{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ width: 20%;
+ height: 100%;
+}
+.close-button button{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+    border: 2px solid white;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 30px;
+    letter-spacing: 1px;
+}
+
+form .button .close-button button:hover {
+ background: linear-gradient(-135deg, #3d1b63, #ef4d79);
+}
+
+form .button input:hover {
+    background: linear-gradient(-135deg, #3d1b63, #ef4d79);
+}
+   
+#addUserPopup .user-detail .input-box {
+    margin-bottom: 25px;
+    width: calc(100% / 2 - 40px);
+}
+
+#addUserPopup {
+width: 60%;
+height: 60%;
+
+}
+
+#adduserwrapper{
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+   
+}
+
+#usercheckbox {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 3%;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-wrapper {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 13%;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    margin-left: 10px;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #3d1b63;
+    font-size: large;
+}
+
+.custom-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #3d1b63;
+    box-shadow: 2px 2px 2px black;
+
+}
+
+.custom-checkbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    background-color: #ef4d79;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-checkbox input:checked+.checkmark {
+    opacity: 1;
+}
+#addAdminPopup .user-detail .input-box {
+    margin-bottom: 40px;
+    width: calc(100% / 2 - 40px);
+}
+
+#addAdminPopup {
+    width: 60%;
+    height: 55%;
+
+}
+
+#addadminbutton{
+
+margin-top:3%
+}
+
+.dash-btns{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 20%;
+}
+
+.dash-btns li{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    
+}
+
+.dash-btns li a{
+    text-decoration: none;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+    border: 2px solid white;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 30px;
+    letter-spacing: 1px;
+    
+}
+
+.dash-btns li a:hover{
+    background: linear-gradient(-135deg, #3d1b63, #ef4d79);
+    transition: 0.1s ease-in-out;
+
+}
+
+    </style>
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+            </div>
+            
+             
+             <div sec:authorize="hasRole('SUPERADMIN')" class="sbbuttons">
+                <button id="button1" onclick="toggleSubMenu('submenu1')">Client<br>Management</button>
+                <ul class="submenu" id="submenu1">
+                    <li onclick="openPopup('addClientsPopup')">Add Client</li>
+                    <li><a href="faboclients">Manage Clients</a></li>
+                </ul>
+    
+                <button id="button2" onclick="toggleSubMenu('submenu2')">Client User <br>Management</button>
+                <ul class="submenu" id="submenu2">
+                    <li onclick="openPopup('addUserPopup')">Add User</li>
+                    <li><a href="faboClientUsers">Manage Users</a> </li>
+                </ul>
+    
+                <button id="button3" onclick="toggleSubMenu('submenu3')">Admin User <br>Management</button>
+                <ul class="submenu" id="submenu3">
+                    <li onclick="openPopup('addAdminPopup')">Add Admin</li>
+                    <li><a href="faboAdmins">Manage Admins</a></li>
+                </ul>
+                </div>
+                
+
+             
+             <div class="sbbuttons">
+                 <button sec:authorize="hasRole('ADMIN_ACCOUNTS')" id="button4" onclick="toggleSubMenu('submenu4')">Accounts Admin</button>
+                <ul class="submenu" id="submenu4">
+                    <li><a href=addinvoice>Add Invoice</a></li>
+                    <li><a href=viewinvoice>Manage Invoices</a></li>
+                </ul>
+			</div>
+			
+			
+			 
+			 <div class="sbbuttons">
+                <button sec:authorize="hasRole('ADMIN_SUPPORT')" id="button5" onclick="toggleSubMenu('submenu5')">Support Admin</button>
+                <ul class="submenu" id="submenu5">
+                    <li><a href=addsupport>Add Support Request</a></li>
+                    <li><a href=viewsupport>View Support Request</a></li>
+                </ul>
+			</div>
+			
+
+			 <div class="sbbuttons">
+                <button sec:authorize="hasRole('ADMIN_PRODUCTS')" id="button6" onclick="toggleSubMenu('submenu6')">Product Admin</button>
+                <ul class="submenu" id="submenu6">
+                    <li><a href=addproduct>Add Product Request</a></li>
+                    <li><a href=viewproduct>View Product Request</a></li>
+                </ul> 
+                </div>
+                
+
+			 <div class="sbbuttons">
+                <button sec:authorize="hasRole('ADMIN_CREATIVES')" id="button7" > <a href=creatives>Creatives Admin</a></button>
+			</div>
+
+			 <div class="sbbuttons">
+                <button sec:authorize="hasRole('CLIENT_ACCOUNTS')" id="button8" onclick="toggleSubMenu('submenu8')">Client Accounts User</button>
+                <ul class="submenu" id="submenu8">
+                    <li><a href=viewinvoices>View Invoices</a></li>
+                    
+                </ul> 
+                </div>
+
+				 <div class="sbbuttons">
+                <button sec:authorize="hasRole('CLIENT_SUPPORT')" id="button9" onclick="toggleSubMenu('submenu9')">Client Support User</button>
+                <ul class="submenu" id="submenu9">
+                    <li><a href=clientsupport>Add Support Request</a></li>
+                     <li><a href=viewclientsupport>View Support Requests</a></li>
+                    
+                </ul> 
+                </div>
+
+				 <div class="sbbuttons">
+                <button sec:authorize="hasRole('CLIENT_PRODUCTS')" id="button10" onclick="toggleSubMenu('submenu10')">Client Product User</button>
+                <ul class="submenu" id="submenu10">
+                    <li><a href=clientaddproduct>Add Product Request</a></li>
+                     <li><a href=clientproductview>View Product Requests</a></li>
+                    
+                </ul> 
+                </div>
+                
+        </div>
+
+
+        <!-- Dashboard Home Page -->
+
+        <div class="section">
+        <div class="dash-btns">
+               
+                    <li><a sec:authorize="hasRole('SUPERADMIN')" href=superadmin.dashboard>SuperAdmin Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('ADMIN_SUPPORT')" href=supportadmindashboard>Support<br>Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('ADMIN_ACCOUNTS')" href=accountadmindashboard>Accounts<br>Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('ADMIN_PRODUCTS')" href=productadmindashboard>Products<br>Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('CLIENT_SUPPORT')" href=clientsupportadmindash>Client Support Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('CLIENT_ACCOUNTS')" href=clientaccountadmindash>Client Account Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('CLIENT_PRODUCTS')" href=clientproductadmindash>Client Product Dashboard</a></li>
+                
+            </div>
+            <div class="greeting">
+                <div class="faboimg">
+                    <img th:src="@{/images/Untitled_design__5_-removebg-preview.png}"  alt="">
+                </div>
+                <div class="text">
+                    <h3>For Fabulous Homes & Fabrics </h3>
+                </div>              
+            </div>
+        </div>
+
+        <div class="popup" id="addClientsPopup"> 
+            <div class="card">
+                <div class="wrapper">
+                    <div class="title">Add Client</div>
+                    <form th:action="@{/clients}" th:object="${client}" method="POST">
+                        <div class="user-detail">
+                            <div class="input-box">
+                                <span class="details">Store Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" id="storeName" th:field="*{storeName}" placeholder="Enter Store Name" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Store Code <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field="*{storeCode}" placeholder="Enter Store Code" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Owner Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field="*{ownerName}"  placeholder="Enter Owner Name" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details" id="mand">E-Mail <sup style="color:red;">*</sup> </span>
+                                <input type="email" th:field="*{email}" placeholder="Enter E-Mail" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Owner Contact <sup style="color:red;">*</sup> </span>
+                                <input type="tel" th:field="*{ownerContact}" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter Owner Contact Number" oninput="validateNumericInput(this)" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Store Contact <sup style="color:red;">*</sup> </span>
+                                <input type="tel" th:field="*{storeContact}" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter Store Contact Number" oninput="validateNumericInput(this)" required>
+                            </div> 
+
+                            <div class="input-box">
+                                <span class="details">GST Number</span>
+                                <input type="tel" th:field="*{gstNo}" placeholder="Enter GST Number">
+                            </div>
+                            <div class="input-box">
+                                <span class="details">City <sup style="color:red;">*</sup> </span>
+                                <input type="text" id="city" th:field="*{city}" placeholder="Enter City" required >
+                            </div>
+
+                            
+                            <div class="input-box">
+                                <span class="details">State <sup style="color:red;">*</sup> </span>
+                                <input  id="state" th:field="*{state}" type="text" placeholder="Enter State" required >
+                            </div>
+
+                            <div class="input-box">
+                                <label for="details" class="details">Full Address <sup style="color:red;">*</sup> </label>
+                                 <textarea id="fullAddress"  th:field="*{fullAddress}" name="fullAddress" placeholder="Enter Full Address" required></textarea>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">GMB Profile Link</span>
+                                <input type="text" th:field="*{gmbProfileLink}" placeholder="Enter GMB Profile Link">
+                            </div>
+
+                        </div>
+
+                        <div class="button homeclosebtn">
+                            <input type="submit" value="Submit">
+                            <div class="close-button">
+                                <button onclick="closePopup()">Close</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup2" id="addUserPopup">          
+		    <div class="card2">
+		        <div class="wrapper2" id="adduserwrapper">
+		            <div class="title2">Add User</div>
+		            <form th:action="@{/add}" th:object="${clientUser}" method="POST">
+		                <div class="user-detail">
+		                    <div class="input-box">      
+		                      
+		                    
+		                     <label for="storeCode" id="mand" >Select StoreCode: <sup style="color:red;">*</sup> </label>
+								<select id="storeCode" name="storeCode" onchange="updateStoreName(this)">
+								    <option value="">Select StoreCode </option>
+								    <!-- Iterate through client entities to populate the select options -->
+								    <option th:each="client : ${clients}" th:value="${client.storeCode}" th:text="${client.storeCode}" th:attr="data-store-name=${client.storeName}"></option>
+								</select>	                  
+		                    </div>
+
+							 <div class="input-box">
+    							<span class="details">Store Name  <sup style="color:red;">*</sup> </span>
+    							<input type="text" id="storename" name="storeName" readonly>
+							</div>
+										 
+
+                             <div class="input-box">
+                                <span class="details">User Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field = "*{userName}" placeholder="Enter User Name" pattern="[a-zA-Z0-9.]*" title="Only alphabets, numbers, and dots are allowed" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Display Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field = "*{displayName}" placeholder="Enter Display Name" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">E-Mail <sup style="color:red;">*</sup> </span>
+                                <input type="email" th:field = "*{email}" placeholder="Enter E-Mail" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Phone Number <sup style="color:red;">*</sup> </span>
+                                <input type="tel" th:field = "*{phoneNumber}" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter Phone Number" oninput="validateNumericInput(this)" required>
+                            </div>
+
+                            <!-- Repeat similar input-box elements for other user details -->
+
+                        </div>
+                        
+                        <div class="checkbox-container">
+                            <div class="checkbox-wrapper"  id="usercheckbox">
+                              <label class="checkbox-label" for="checkbox1">
+                                <div class="custom-checkbox">
+                                  <input type="checkbox" id="checkbox1" name="roleIds" value="6">
+                                  <div class="checkmark"></div>
+                                </div>
+                                Accounts
+                              </label>
+                            </div>
+                        
+                            <div class="checkbox-wrapper">
+                              <label class="checkbox-label" for="checkbox2">
+                                <div class="custom-checkbox">
+                                  <input type="checkbox" id="checkbox2" name="roleIds" value="7">
+                                  <div class="checkmark"></div>
+                                </div>
+                                Support
+                              </label>
+                            </div>
+                        
+                            <div class="checkbox-wrapper">
+                              <label class="checkbox-label" for="checkbox3">
+                                <div class="custom-checkbox">
+                                  <input type="checkbox" id="checkbox3" name="roleIds" value="8">
+                                  <div class="checkmark"></div>
+                                </div>
+                                Products
+                              </label>
+                            </div>
+                        
+                            <div class="checkbox-wrapper">
+                              <label class="checkbox-label" for="checkbox4">
+                                <div class="custom-checkbox">
+                                  <input type="checkbox" id="checkbox4" name="roleIds" value="9">
+                                  <div class="checkmark"></div>
+                                </div>
+                                Creatives
+                              </label>
+                            </div>
+                          </div>
+                          <div  class="button2">
+                            <input type="submit" value="Submit">
+                            <div class="close-button">
+                                <button onclick="closePopup()">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup" id="addAdminPopup">
+            
+            <div class="card">
+                <div class="wrapper">
+                    <div class="title">Add Admin</div>
+                    <form th:action="@{/addAdmin}" th:object="${admin}" method="POST">
+                        <div class="user-detail">
+                            <div class="input-box">
+                                <span class="details"> Display Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field="*{displayName}" placeholder="Enter Display Name" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">User Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field="*{userName}" placeholder="Enter User Name" pattern="[a-zA-Z0-9.]*" title="Only alphabets, numbers, and dots are allowed" required>
+                            </div>
+        
+                            <div class="input-box">
+                                <span class="details">E-Mail <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field="*{email}" placeholder="Enter E-Mail" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Phone Number<sup style="color:red;">*</sup> </span>
+                                <input type="tel" th:field="*{phoneNumber}" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter Phone Number" oninput="validateNumericInput(this)" required>
+                            </div>
+
+                            <div class="checkbox-container">
+                                <div class="checkbox-wrapper">
+                                    <label class="checkbox-label" for="adminCheckbox1">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" id="adminCheckbox1" name="roleIds" value="2">
+                                            <div class="checkmark"></div>
+                                        </div>
+                                        Accounts
+                                    </label>
+                                </div>
+        
+                                <div class="checkbox-wrapper">
+                                    <label class="checkbox-label" for="adminCheckbox2">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" id="adminCheckbox2" name="roleIds" value="3">
+                                            <div class="checkmark"></div>
+                                        </div>
+                                        Support
+                                    </label>
+                                </div>
+         
+                                <div class="checkbox-wrapper">
+                                    <label class="checkbox-label" for="adminCheckbox3">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" id="adminCheckbox3" name="roleIds" value="4">
+                                            <div class="checkmark"></div>
+                                        </div>
+                                        Products
+                                    </label>
+                                </div>
+
+                                <div class="checkbox-wrapper">
+                                    <label class="checkbox-label" for="adminCheckbox4">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" id="adminCheckbox4" name="roleIds" value="5">
+                                            <div class="checkmark"></div>
+                                        </div>
+                                        Creatives
+                                    </label>
+                                </div>
+        
+                              
+                            </div>
+                        </div>
+                        <div class="button" id="addadminbutton">
+                            <input type="submit" value="Submit">
+                            <div class="close-button">
+                                <button onclick="closePopup()">Close</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script th:src="@{/js/home.js}"></script>
+
+<script th:inline="javascript">
+    function updateStoreName(select) {
+        var selectedOption = select.options[select.selectedIndex];
+        var storeName = selectedOption.getAttribute('data-store-name');
+        document.getElementById('storename').value = storeName;
+    }
+</script>
+
+
+<script th:inline="javascript">
+    const storeNameInput = document.getElementById('storeName');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+    const fullAddressInput = document.getElementById('fullAddress');
+
+    // Event listeners for store name, city, pincode, and state inputs
+    [storeNameInput, cityInput, stateInput].forEach(input => {
+        input.addEventListener('input', updateFullAddress);
+    });
+
+    // Function to update full address based on inputs
+    function updateFullAddress() {
+        const storeName = storeNameInput.value;
+        const city = cityInput.value;
+        const state = stateInput.value;
+
+        // Update the full address field
+        fullAddressInput.value = '' + storeName + ', ' + city + ', ' + state + '';
+    }
+    
+</script>
+
+
+</body>
+</html>

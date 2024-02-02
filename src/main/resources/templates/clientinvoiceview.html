@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="clientinvoiceview.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+       
+        <div class="section">
+            <div class="invoice-details">
+
+                <div id="invoice">
+                    <div id="closeButton"><a href="clientviewinvoices.html">X</a></div>
+                    <div id="logo">
+                        <!-- Replace 'path/to/your/logo.png' with the actual path to your logo image -->
+                        <img src="fabo.logo.png" alt="Company Logo" width="100">
+                    </div><br><br><br>
+            
+                    <h2>Invoice</h2>
+            
+                    <p><strong>Invoice Type:</strong> Service Invoice</p>
+                    <p><strong>Invoice Generated Date:</strong> January 1, 2023</p>
+                    <p><strong>Invoice Amount:</strong> $1,000.00</p>
+                    <p><strong>Invoice Subject:</strong> Chemicals</p>
+                    <p><strong>Invoice Status:</strong> Pending</p>
+                    <p><strong>Description:</strong> We generated this invoice for the chemicals that your store purchased from fabo.</p>
+            
+                    <!-- Additional details or itemized billing can be added here -->
+                    <button id="downloadButton" onclick="downloadInvoice()">Download</button>
+                   
+
+
+                    
+            
+                </div>
+                
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        function downloadInvoice() {
+            // You can add logic here to generate and download the invoice file
+            // For demonstration purposes, we'll just alert a message
+            alert('Downloading invoice...');
+        }
+    </script>
+</body>
+</html>

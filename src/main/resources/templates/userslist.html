@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/userslist.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-page">
+         <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Users List</h2>
+                    <div class="close-button">
+                        <li><a th:href="@{/superadminHome}">X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="filters">
+                       
+
+                        <div class="fil-2">
+                            <label for="storecodeDropdown">Select Store Code:</label>
+                            <input type="search" list="storeCodes" placeholder="Select Store Code" id="storecode" name="storeCode" th:value="${selectedStoreCode}">
+                            <datalist id="storeCodes">
+                                <option value="" disabled selected>Select store code</option>
+						        <option th:each="code : ${storeCodes}" th:value="${code}" th:text="${code}"></option>
+                            </datalist>
+                        </div>
+                        <div class="search-container">
+                            <div class="search-icon" id="searchIcon">
+                              <i class="fas fa-search"></i>
+                            </div>
+                            <input type="search" class="search-bar" placeholder="Search" id="searchInput">
+                            <ul id="searchResults"></ul>
+                        </div>
+                    </div>
+                    
+                </div>
+                 <h3 id="totalClientUsers">Total number of clientUsers: <span></span></h3>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                           <tr>
+                                <th>Store Code</th>
+                                <th>Store Name</th>
+                                <th>User Name</th>
+                                <th>Email</th>                               
+                                <th>Phone</th>
+                                <th>Accesses</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                          
+                             <tr th:each="clientUser : ${clientUsers}">
+                                <td th:text = "${clientUser.storeCode}"></td>
+								<td th:text = "${clientUser.storeName}"></td>
+								<td th:text = "${clientUser.userName}"></td>
+								<td th:text = "${clientUser.email}"></td>
+								<td th:text = "${clientUser.phoneNumber}"></td>
+								<td th:text="${clientUser.concatenatedRoleNames}"></td>
+								
+								<td>
+                                    <div class="action-menu">
+                                        <i class="fas fa-bars" onclick="toggleActionMenu(this)"></i>
+                                        <div class="dropdown-menu">
+                                            <a th:href = "@{/Users/{userName}(userName=${clientUser.userName})}">View</a>
+                                            <a th:href = "@{/clientUsers/edit/{userName}(userName=${clientUser.userName})}">Edit</a>
+											<a th:href = "@{/clientUser/{userName}(userName=${clientUser.userName})}" onclick="return confirmDelete('${clientUser.email}')">Delete</a>
+											
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="popup" id="deleteConfirmationPopup">
+            <div class="card">
+                <div class="wrapper">
+                    
+                    <p>Are You Sure To Delete This User??</p>
+                    <div class="button-container">
+                        <button onclick="confirmDelete()">Yes</button>
+                        <button onclick="cancelDelete()">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    	
+    	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    	
+    	
+<script>
+$(document).ready(function () {
+    // Function to update the total count
+    function updateTotalCount() {
+        var totalCount = $('#clientsTableBody tr:visible').length;
+        $('#totalClientUsers span').text(totalCount);
+    }
+
+    // Function to filter the table based on the selected store code
+    function filterTable() {
+        var selectedStoreCode = $('#storecode').val().toLowerCase();
+
+        $('#clientsTableBody tr').filter(function () {
+            var storeCode = $(this).find('td:nth-child(1)').text().toLowerCase(); // Update the column index to 1
+            $(this).toggle(storeCode.indexOf(selectedStoreCode) > -1);
+        });
+
+        updateTotalCount(); // Update total count after filtering
+    }
+
+    // Trigger the filter when the store code input changes
+    $('#storecode').on('input', function () {
+        filterTable();
+    });
+
+    // Attach a keyup event to the search input
+    $('#searchInput').keyup(function () {
+        // Get the value from the search input
+        var searchTerm = $(this).val().toLowerCase();
+
+        // Filter the table rows based on the search term
+        $('#clientsTableBody tr').filter(function () {
+            var rowText = $(this).text().toLowerCase();
+            $(this).toggle(rowText.indexOf(searchTerm) > -1);
+        });
+
+        updateTotalCount(); // Update total count after search
+    });
+
+    // Update total count on document ready
+    updateTotalCount();
+});  
+</script>
+
+
+
+<script>
+//Function for delete confirmation
+function confirmDelete(clientId) {
+    var confirmation = confirm("Are you sure you want to delete this Client?");
+    if (confirmation) {
+        window.location.href = '/client/' + clientId + '/delete';
+
+    } else {
+        alert("Deletion canceled.");
+        return false;
+    }
+}
+</script>
+
+
+</body>
+</html>

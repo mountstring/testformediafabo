@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+	body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.main-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2)20%, rgba(0, 0, 0, 0.2)20%), url("/images/Desk-bg.jpg");
+    background-position: center;
+    background-size: 100% 100%;
+    box-sizing: border-box;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.admin-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 90%;
+    width: 60%;
+    background: linear-gradient(-150deg, #3d1b63, #ef4d79);
+    border-radius: 10px;
+    border: 2px solid white;
+    box-shadow: 5px 5px 5px black;
+}
+.form-container::-webkit-scrollbar
+{
+    display: none;
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    width: 100%;
+    height: 5%;
+}
+
+.title h2 {
+    margin: 0 5%;
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+    color: #fff;
+    margin-top: 20px;
+  
+}
+
+.title h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 30px;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+}
+
+.form {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+height: fit-content;
+width: 85%;
+border-radius: 10px;
+color: white;
+background-color: #ddd;
+border: 2px solid #fff;
+overflow-y: auto; /* Added for scrolling */
+white-space: none;
+padding-top: 10px;
+}
+
+/* Add this style for the form container to make it scrollable */
+.form-container {
+    width: 100%;
+max-height: 500px; /* Adjust the height as needed */
+overflow-y: auto; /* Added for scrolling */
+display: flex;
+justify-content: center;
+
+}
+
+.form > .form-dts {
+width: 90%;
+height: 85%;
+display: flex;
+flex-direction: column;
+margin-top: 3%;
+justify-content: center;
+align-items: first baseline;
+color: #3d1b63;
+margin-bottom: 20px; /* Added margin at the bottom */
+}
+
+
+.form li {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: 15%;
+    width: 100%;
+   
+}
+
+.form li a {
+    display: flex;
+    justify-content:right;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    border: 2px solid white;
+    width: 20%;
+    height: 60%;
+    margin: 0 2%;
+    border-radius: 30px;
+    background: linear-gradient(150deg, #3d1b63, #ef4d79);
+    position: relative;
+    left:75%;
+}
+
+.form li a:hover {
+    background: linear-gradient(-150deg, #3d1b63, #ef4d79);
+}
+.form li a button{
+width:100%;
+outline:none;
+border:none;
+background:transparent;
+padding:10px;
+color:#fff;
+font-weight:bold;
+
+}
+
+.closex-btn {
+    margin-left: 92%;
+    margin-top: -10px;
+}
+
+.closex-btn li {
+    display: flex;
+}
+
+.closex-btn li a {
+    border: 2px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    background: linear-gradient(150deg, #3d1b63, #ef4d79);
+}
+
+.closex-btn li a:hover {
+    background: linear-gradient(-150deg, #3d1b63, #ef4d79);
+    scale: 1.05;
+    transition: 0.1s ease-in-out;
+}
+
+/* download preview icons */
+i{
+    position: relative;
+    left:300px;
+    margin: 5px;
+}
+
+/* comments box */
+.comment-container {
+    margin-bottom: 20px;
+    border: 2px solid #3d1b63;
+    padding: 10px;
+    position: relative;
+    font-size: 12px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-left: 30px;
+}
+
+textarea {
+    width: 500px;
+    height: 100px;
+    outline: none;
+    resize: none;
+}
+</style>
+</head>
+
+<body>
+    <div class="main-page">
+        <div class="section">
+            <div class="admin-details">
+                <div class="title">
+                    <h2>Invoice-Details</h2>
+                </div>
+                <div class="closex-btn">
+                    <li><a th:href="@{/viewinvoice}">X</a></li>
+                </div>
+                <div class="form-container">
+                    <div class="form">
+                        <div class="form-dts">
+                                                        
+                        <span><b>Uploaded By :</b></span><br>
+                        <span><b>Store Name : </b><span th:text="${invoice.storeName}"></span></span><br>
+                        <span><b>Store Code : </b><span th:text="${invoice.storeCode}"></span></span><br>                        
+                        <span><b>Store Phone : </b><span th:if="${client != null}" th:text="${client.storeContact}"></span></span><br>
+                        <span><b>Invoice Date: </b><span th:text="${invoice.invoiceDate}"></span></span><br>
+                        <span><b>Invoice Amount : </b><span th:text="${invoice.invoiceAmount}"></span></span><br>
+                        <span><b>Invoice Type : </b><span th:text="${invoice.invoiceType}"></span></span><br>
+                        <span><b>Invoice Status : </b><span th:text="${invoice.invoiceStatus}"></span></span><br>
+                        <span><b>Uploaded Files:</b>
+                        <ul>
+							    <li th:each="base64Image, status : ${base64ImageList}" style="margin-right: 10px; margin-bottom: 20px;">
+							        <div style="position: relative;">
+							            <img th:src="@{'data:image/png;base64,' + ${base64Image}}" alt="Image" style="height: 300px; width: 600px;">
+							            <a th:href="@{'/downloaded/' + ${status.index}}" th:download="'image' + ${status.index} + '.png'">
+							                <button type="button">Download</button>
+							            </a>
+							        </div>
+							    </li>
+							</ul>
+                                
+                            </span><br>
+                            <!-- Your existing content here -->
+
+                            <span><b>Comments:</b></span><br>
+                       
+                       	<div th:each="comment : ${invoiceCommentsList}" class="comment-container">
+							    <div style="display: flex; justify-content: space-between;">
+							        <p><strong>Time:</strong> <span th:text="${#dates.format(comment.timeAdded, 'hh:mm a')}"></span></p>
+							        <p><strong>Date:</strong> <span th:text="${#dates.format(comment.dateAdded, 'MMMM dd, yyyy')}"></span></p>
+							    </div>
+							    <p><strong>Added by:</strong><span th:text="${comment.addedBy}"></span></p>
+							     <p><strong>Reason:</strong> <span th:text="${comment.Reason}"></span></p>
+							      <p><strong>Visible to client:</strong> <span th:text="${comment.requestStatus ? 'yes' : 'no'}"></span></p>
+							    <textarea th:text="${comment.adminComments}" placeholder="Your comment goes here..."></textarea>
+							</div>
+                
+
+                            <!-- Repeat the above section for each comment -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

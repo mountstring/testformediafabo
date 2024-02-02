@@ -1,0 +1,518 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Document</title>
+    <style>
+	body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+
+.main-page {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;  
+    background:linear-gradient(to top, rgba(0,0,0,0.2)20%,rgba(0,0,0,0.2)20%), url("/images/Desk-bg.jpg");
+    background-position: center;
+    background-size: 100% 100%;
+    box-sizing: border-box;
+}
+
+.sidebar {
+    width: 20%;
+    height: auto;
+    color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+   
+}
+
+
+.logo-section {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-items: top;
+    margin-bottom: 10%;
+    /* background-color: #ddd; */
+
+}
+
+.logo-section img {
+    width: 60%;
+    height: 80%;
+}
+
+.sbbuttons {
+    width: 100%;
+    height: 80%;
+    /* background: linear-gradient(180deg ,#ef4d7800 0%,#3d1b63 70%,#3d1b63 100%); */
+    margin-top: 20%;
+}
+
+
+ .sbbuttons > button {
+    width: 90%;
+    padding: 10px;
+    margin: 5% 0;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #ef4d79, #3d1b63);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: large;
+    border: 2px solid white;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+ }
+
+.sbbuttons>button:hover {
+    background: linear-gradient(-135deg, #ef4d79, #3d1b63);
+}
+
+
+.submenu {
+    list-style-type: none;
+    padding: 0;
+    display: none;
+    margin: 0;
+}
+
+.submenu li {
+    padding: 8px;
+    background: linear-gradient(135deg, #ef4d79, #3d1b63);
+    margin-bottom: 15px;
+    cursor: pointer;
+    width: 60%;
+    margin-left: 12%;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.submenu li:hover {
+    background: linear-gradient(-135deg, #ef4d79, #3d1b63);
+}
+
+.submenu.show {
+    display: block;
+}
+.card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 100%;
+
+}
+
+
+.wrapper {
+    width: 80%;
+    height: 70%;
+    background: #ddd;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    border: 2px solid #ef4d79;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+}
+
+.wrapper>.title {
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+    color: #3d1b63;
+}
+
+.wrapper .title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 30px;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+}
+
+
+.wrapper form .user-detail {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 40px 20px 0;
+    color: #3d1b63;
+    font-size: large;
+}
+
+form .user-detail .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 40px);
+}
+
+.user-detail .input-box input {
+    height: 35px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #3d1b63;
+    padding-left: 15px;
+    font-size: 14px;
+    border-bottom-width: 2px;
+    transition: all .3s ease;
+}
+
+.user-detail .input-box input:focus,
+.user-detail .input-box input:valid {
+    border-color: #ef4d79;
+}
+
+
+.user-detail .input-box .details {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+
+form .button {
+     display: flex;
+     flex-direction: row;
+     justify-content: right;
+     width: 100%;
+     height: 45px;
+    
+}
+
+form .button input {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 20%;
+    color: #fff;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 30px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+    border: 2px solid white;
+    margin: 0 2%;
+    
+}
+
+.button li{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 20%;
+   
+}
+
+
+
+form .button li a {
+   text-decoration: none;
+   font-size: 18px;
+    font-weight: 500;
+    border: 2px solid white;
+    color: white;
+    height: 90%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 30px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #3d1b63, #ef4d79);
+    
+}
+
+
+
+    
+
+form .button li a:hover {
+ background: linear-gradient(-135deg, #3d1b63, #ef4d79);
+}
+
+
+
+form .button input:hover {
+    background: linear-gradient(-135deg, #3d1b63, #ef4d79);
+}
+
+#addUserPopup {
+width: 60%;
+height: 70%;
+
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.checkbox-wrapper {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 7%;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    margin-left: 10px;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #3d1b63;
+    font-size: large;
+}
+
+.custom-checkbox {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border: 1px solid #3d1b63;
+    box-shadow: 2px 2px 2px black;
+
+}
+
+.custom-checkbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 16px;
+    height: 16px;
+    background-color: #ef4d79;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-checkbox input:checked+.checkmark {
+    opacity: 1;
+}
+#addAdminPopup .user-detail .input-box {
+    margin-bottom: 25px;
+    width: calc(100% / 2 - 40px);
+}
+
+
+/* media */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    .card{
+      
+        width:100%;
+        height:70%;
+        position: relative;
+        left:-10%;
+        top:15%;
+    }
+    
+    .wrapper{
+        width:100%;
+        height: 70%;
+       
+    }
+    .checkbox-container{
+        margin-left:-30px;
+    }
+    form .button{
+        margin-top:25px;
+    }
+}
+
+	
+    </style>
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}"alt="Your Logo">
+            </div>
+        </div>
+        <div class="card">
+            <div class="wrapper">
+                <div class="title">Edit Admin</div>
+                 <form th:action="@{/admins/{userName}(userName=${admin.userName})}" th:object="${admin}" method="POST">
+                    <div class="user-detail">
+                        <div class="input-box">
+                                <span class="details"> Display Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field = "*{displayName}" placeholder="Enter Name" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details"> User Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field = "*{userName}" placeholder="Enter User Name" required readonly>
+                            </div>
+        
+                            <div class="input-box">
+                                <span class="details">E-Mail <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field = "*{email}" placeholder="Enter E-Mail" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Phone <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field = "*{phoneNumber}" pattern="[6-9]{1}[0-9]{9}" oninput="validateNumericInput(this)" placeholder="Enter Phone Number" required>
+                            </div>
+
+                        <!-- Repeat similar input-box elements for other user details -->
+
+                    </div>
+                     <h3>Existing roles : <span th:text="${admin.concatenatedRoleNames}"></span></h3>
+                     
+                     
+                     
+                     
+                     
+                     
+      <div class="checkbox-container">
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox1">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox1" name="roleIds" value="2" th:checked="${admin.roleIds.contains(6)}">
+                    <div class="checkmark"></div>
+                </div>
+                Accounts
+            </label>
+        </div>
+
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox2">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox2" name="roleIds" value="3" th:checked="${admin.roleIds.contains(7)}">
+                    <div class="checkmark"></div>
+                </div>
+                Support
+            </label>
+        </div>
+
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox3">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox3" name="roleIds" value="4" th:checked="${admin.roleIds.contains(8)}">
+                    <div class="checkmark"></div>
+                </div>
+                Products
+            </label>
+        </div>
+
+        <div class="checkbox-wrapper">
+            <label class="checkbox-label" for="checkbox4">
+                <div class="custom-checkbox">
+                    <input type="checkbox" id="checkbox4" name="roleIds" value="5" th:checked="${admin.roleIds.contains(9)}">
+                    <div class="checkmark"></div>
+                </div>
+                Creatives
+            </label>
+        </div>
+    </div>
+                      <div class="button">
+                        <input type="submit" value="Update">
+                        <li><a th:href="@{/faboAdmins}">Close</a></li>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        
+        
+
+
+<input type="hidden" id="roleIds" th:value="${admin.roleIds}" />
+
+
+
+<!-- Your existing script tags -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- ... Other styles and HTML elements ... -->
+
+<script>
+$(document).ready(function () {
+    console.log("JavaScript is running...");
+
+    // Get roleIds as a string
+    var roleIdsString = $('#roleIds').val();
+
+    // Parse the string as JSON to get the array
+    var roleIds = roleIdsString ? JSON.parse(roleIdsString) : [];
+
+    // Ensure that roleIds is an array
+    if (!Array.isArray(roleIds)) {
+        roleIds = [];
+    }
+
+    console.log("Extracted roleIds:", roleIds);
+
+    // Iterate through each checkbox and check it if the corresponding roleId is present
+    $(".checkbox-label input[type='checkbox']").each(function () {
+        var checkboxValue = parseInt($(this).val());
+
+        console.log("Checkbox value:", checkboxValue);
+
+        // Check if the checkbox value is in the roleIds array
+        if (roleIds.indexOf(checkboxValue) !== -1) {
+            $(this).prop("checked", true);
+            console.log("Checkbox marked:", checkboxValue);
+        }
+    });
+
+    console.log("Final roleIds:", roleIds);
+});
+</script>
+
+<script>
+function validateNumericInput(input) {
+    // Remove non-numeric characters from the input value
+    let numericValue = input.value.replace(/\D/g, '');
+
+    // Limit the numeric value to 10 characters
+    numericValue = numericValue.slice(0, 10);
+
+    // Update the input value with the processed numeric value
+    input.value = numericValue;
+}
+
+</script>
+
+</body>
+
+</html>
+
+        

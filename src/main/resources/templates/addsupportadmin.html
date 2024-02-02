@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/addsupportadmin.css}" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+       
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+            </div>
+  
+        </div>
+
+        <!-- Dashboard Home Page -->
+        <div class="section">
+            <div class="card">
+                <div class="subsec">
+                    <div class="title">Add Support Request</div>
+                    <div class="form">
+                        <form id="invoiceForm" th:action="@{/createSupportAdmin}" th:object="${addSupportAdmin}" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+                            <div class="user-detail">
+
+                                <div class="input-box">
+                                    <label for="storeDropdown">Select Store Code</label>
+                                    <input type="text" placeholder="Select Store" name="storeCode" id="selectedStoreCode" list="storeDropdown">
+                                    <!-- <select id="storeDropdown" required> -->
+                                        <datalist id="storeDropdown">
+                                         <option th:each="client : ${clients}" th:value="${client.storeCode}" th:text="${client.storeCode}" th:attr="data-store-name=${client.storeName}"></option>
+                                    <!-- </select> -->
+                                    </datalist>
+                                </div>
+                                <div class="input-box">
+                                    <label for="storeDropdown">Store Name</label>
+                                    <input type="text" id="storeName" name="storeName" placeholder="Store Name" readonly>
+                                </div>
+                                <div class="input-box">
+                                    <label for="invoicedropdown">Support Request type</label>
+                                    <input type="text" name="supportRequestType" placeholder="Support Request type" list="invoicedropdown">
+                                    <datalist id="invoicedropdown">
+                                    <!-- <select id="invoicedropdown" required> -->
+                                        <option value="Machines"></option>
+                                        <option value="Washings"></option>
+                                        <option value="Ironing"></option>
+                                        <option value="Printers"></option>
+                                        <option value="General"></option>
+                                    <!-- </select> -->
+                                    </datalist>
+                                </div>
+
+                                <div class="input-box">
+                                    <span class="details">Store Phone Number <sup style="color:red;">*</sup></span>
+                                    <input type="tel" id="phoneNumber" th:field="*{storeContact}" name="phoneNumber" pattern="[6-9]{1}[0-9]{9}" oninput="validateNumericInput(this)" placeholder="Enter Phone Number" required>
+                                </div> 
+                                <div class="input-box">
+                                    <span class="details"> Date <sup style="color:red;">*</sup></span>
+                                    <input id="date" type="date" th:field="*{Date}" placeholder="Enter Date" required oninput="validateDate()">
+                                </div>
+
+                                <div class="input-box" id="input-box1">
+                                    <label for="Image">Upload Files <sup style="color:red;">*</sup></label>
+                                    <input type="file" id="invoiceImage" name="files" accept="image/*" multiple onchange="displayFileNames(this)">
+                                </div>
+                                <div class="input-box" id="issueinputbox">
+                                    <label for="details" class="details">Issue Subject <sup style="color:red;">*</sup></label>
+                                     <input id="issuesubject" th:field="*{issueSubject}" name="issuesubject" placeholder=" Issue Subject" required></input>
+                                </div>
+
+                               
+
+                                <div class="input-box" id="Descriptionbox">
+                                    <label for="details" class="details">Issue Description <sup style="color:red;">*</sup></label>
+                                     <textarea id="issuedescription" th:field="*{issueDescription}" name="issuedescription" placeholder=" Issue Description" required></textarea>
+                                </div>
+                            </div>
+                            <div id="fileNameDisplay"></div>
+                            <div class="buttons btn1">
+                                <input type="submit" value="Submit">
+                                <div class="close-button">
+                                    <button><li><a href=adminshome>Close</a></li></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+       var uploadedFileNames = [];
+
+function displayFileNames(input) {
+    var fileDisplay = document.getElementById("fileNameDisplay");
+    var uploadField = document.getElementById("input-box1");
+
+    // Check if files were selected
+    if (input.files.length > 0) {
+        // Iterate through selected files
+        for (var i = 0; i < input.files.length; i++) {
+            var fileName = input.files[i].name;
+
+            // Check if the file is not already uploaded
+            if (!isFileUploaded(fileName)) {
+                // Display the file name with a close button
+                var div = document.createElement("div");
+                div.innerHTML = '<span>' + fileName + '</span><button onclick="removeFile(this)">x</button>';
+                fileDisplay.appendChild(div);
+
+                // Add the file name to the uploaded list
+                uploadedFileNames.push(fileName);
+
+                // Apply animation class to the upload field
+                uploadField.classList.add("file-uploaded-animation");
+
+                // Remove the animation class after a delay (adjust as needed)
+                setTimeout(function () {
+                    uploadField.classList.remove("file-uploaded-animation");
+                }, 2000);
+            }
+        }
+    }
+}
+
+// Function to remove the file name when the close button is clicked
+function removeFile(button) {
+    var fileNameToRemove = button.previousElementSibling.textContent.trim(); // Get the file name
+    var fileDisplay = document.getElementById("fileNameDisplay");
+
+    // Remove the file name from the display
+    button.parentNode.remove();
+
+    // Remove the file name from the uploaded list
+    uploadedFileNames = uploadedFileNames.filter(function (name) {
+        return name !== fileNameToRemove;
+    });
+}
+
+// Function to check if the file is already uploaded
+function isFileUploaded(fileName) {
+    return uploadedFileNames.includes(fileName);
+}
+
+    </script>
+    
+    <script>
+    $(document).ready(function() {
+        // Event listener for the input change
+        $("#selectedStoreCode").on("input", function() {
+            // Get the selected store code
+            var selectedCode = $(this).val();
+
+            // Find the corresponding store name using data-store-name attribute
+            var selectedStoreName = $("#storeDropdown option[value='" + selectedCode + "']").attr("data-store-name");
+
+            // Update the store name field
+            $("#storeName").val(selectedStoreName);
+        });
+    });
+</script>
+
+<script>
+function validateDate() {
+    var inputDate = document.getElementById("date").value;  // Use the correct ID "date"
+    var today = new Date().toISOString().split('T')[0];  // Get today's date in "yyyy-mm-dd" format
+
+    if (inputDate > today) {
+        alert("Future dates are not allowed");
+        document.getElementById("date").value = today;  // Set the input to today's date using the correct ID "date"
+    }
+}
+</script>
+
+<script>
+function validateNumericInput(input) {
+    // Remove non-numeric characters from the input value
+    let numericValue = input.value.replace(/\D/g, '');
+
+    // Limit the numeric value to 10 characters
+    numericValue = numericValue.slice(0, 10);
+
+    // Update the input value with the processed numeric value
+    input.value = numericValue;
+}
+
+</script>
+
+</body>
+</html>

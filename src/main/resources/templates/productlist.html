@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/productlist.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+      
+
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Product Request List</h2>
+                    <div class="close-button">
+                        <li><a href=adminshome>X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="filters">
+
+                        <div class="calender">
+                            <label for="fromDate">From Date:</label>
+                            <input type="date" id="fromDate">
+                        </div>
+                        <div class="calender">
+                            <label for="toDate">To Date:</label>
+                            <input type="date" id="toDate">
+                        </div>
+
+                        
+
+                      <div class="fil-2">
+						    <label>Select Store Code:</label>
+						    <input type="search" list="storeCodes" placeholder="Select Store Code" id="storesearch" name="storeCode" th:value="${selectedStoreCode}">
+						    <datalist id="storeCodes">
+						        <option value="" disabled selected>Select store code</option>
+						        <option th:each="code : ${storeCodes}" th:value="${code}" th:text="${code}"></option>
+						    </datalist>
+						</div>
+                      
+                    
+
+                      
+
+                        <div class="fil-3">
+                            <label for="productdropdown">Select Product Type:</label>
+                            <input type="search" list="productdropdown" placeholder="Select Product " id="productSearch">
+                            <datalist id="productdropdown">
+                                <option value="Chemicals">Chemicals</option>
+                                <option value="Packing Covers">Packing Covers</option>
+                                
+                                <option value="Collar Cuffs">Collar Cuffs</option>
+                                <option value="Pins">Pins</option>
+                            </datalist>
+                        </div>
+
+                      
+                        
+                        <div class="fil-4">
+                            <label for="statusDropdown">Select Status:</label>
+                            <input type="search" list="statusDropdown" placeholder="Select Status" id="satusSearch">
+                            <datalist id="statusDropdown">
+                            <!-- <select id="statusDropdown" required> -->
+                                <option value="New">New</option>
+                                <option value="Closed">Closed</option>
+                                <option value="In-Progress">Closed</option>
+                                <!-- Add other status options as needed -->
+                            <!-- </select> -->
+                            </datalist>
+                        </div>
+
+
+                        <div class="search-container">
+                            <div class="search-icon" id="searchIcon">
+                              <i class="fas fa-search"></i>
+                            </div>
+                            <input type="search" class="search-bar" id="searchInput" placeholder="Search">
+                            <ul id="searchResults"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Store Code</th>
+                                <th>Store Name</th>
+                                <th>Date</th>
+                                <th>Product Request Type</th>
+                                
+                                <th>Issue Subject</th>
+                                <th>Contact Number</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                          
+                            <tr th:each = "addProductAdmin: ${addProductAdmins}">
+                                 <td th:text = "${addProductAdmin.storeCode}"></td>         
+                                  <td th:text = "${addProductAdmin.storeName}"></td> 
+                                   <td th:text = "${addProductAdmin.Date}"></td> 
+                                    <td th:text = "${addProductAdmin.productRequestType}"></td> 
+                                     <td th:text = "${addProductAdmin.issueSubject}"></td> 
+                                      <td th:text = "${addProductAdmin.storeContact}"></td> 
+                                       <td th:text = "${addProductAdmin.status}"></td> 
+                                <td>
+                                    <div class="action-menu">
+                                        <i class="fas fa-bars" onclick="toggleActionMenu(this)"></i>
+                                        <div class="dropdown-menu">
+                                            <a th:href = "@{/productviewpop/{id}(id=${addProductAdmin.id})}">View Store Contact Info</a>
+                                            <a th:href = "@{/productcaputurepop/{id}(id=${addProductAdmin.id})}" href=".html" style="cursor: pointer;">Add Comments</a>
+                                            <a th:href = "@{/productmoveinprogresspop/{id}(id=${addProductAdmin.id})}" href=".html">Move To In-Progress</a>
+                                            <a th:href = "@{/closeproductlistpop/{id}(id=${addProductAdmin.id})}" href=".html">Close Product Request</a>
+                                            <a th:href = "@{/reopenproductpop/{id}(id=${addProductAdmin.id})}" href="reopenproductpop.html">Re-Open Product Request</a>
+                                            <a th:href = "@{/productsviewpop/{id}(id=${addProductAdmin.id})}" href="viewproductdetails.html">View Detailed Info</a>
+                                            <a th:href = "@{/deleteviewpop/{id}(id=${addProductAdmin.id})}" href="#" onclick="showDeleteConfirmationPopup()">Delete Product Request</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                          
+                        
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    
+   <script>
+ 			$(document).ready(function () {
+ 			    // Function to filter the table based on the selected store code
+ 			    function filterTable() {
+ 			        var selectedStoreCode = $('#storesearch').val().toLowerCase();
+
+ 			        $('#clientsTableBody tr').filter(function () {
+ 			            var storeCode = $(this).find('td:nth-child(2)').text().toLowerCase();
+ 			            $(this).toggle(storeCode.indexOf(selectedStoreCode) > -1);
+ 			        });
+ 			    }
+
+ 			   function filterProductType() {
+ 				    var selectedProductType = $('#productSearch').val().toLowerCase();
+
+ 				    $('#clientsTableBody tr').filter(function () {
+ 				        var productType = $(this).find('td:nth-child(4)').text().toLowerCase(); // Update the column index to 4
+ 				        $(this).toggle(productType.indexOf(selectedProductType) > -1);
+ 				    });
+ 				}
+
+ 			   function filterStatus() {
+ 				    var selectedStatus = $('#satusSearch').val().toLowerCase();
+
+ 				    $('#clientsTableBody tr').filter(function () {
+ 				        var status = $(this).find('td:nth-child(7)').text().toLowerCase(); // Update the column index to 7
+ 				        $(this).toggle(status.indexOf(selectedStatus) > -1);
+ 				    });
+ 				}
+
+
+
+ 			    // Trigger the filter when the store code input changes
+ 			    $('#storesearch').on('input', function () {
+ 			        filterTable();
+ 			    });
+
+ 			   //Trigger the filter when the product type search input changes
+ 			   $('#productSearch').on('input', function () {
+ 			       filterProductType();
+ 			   });
+ 			    // Trigger the filter when the status search input changes
+ 			    $('#satusSearch').on('input', function () {
+ 			        filterStatus();
+ 			    });
+ 			});
+				
+</script>
+
+  <script>
+$(document).ready(function () {
+    // Attach a keyup event to the search input
+    $('#searchInput').keyup(function () {
+        // Get the value from the search input
+        var searchTerm = $(this).val().toLowerCase();
+
+        // Filter the table rows based on the search term
+        $('#clientsTableBody tr').filter(function () {
+            var rowText = $(this).text().toLowerCase();
+            $(this).toggle(rowText.indexOf(searchTerm) > -1);
+        });
+    });
+});
+</script>
+
+<script>
+$(document).ready(function () {
+    // Function to filter the table based on the selected date range
+    function filterDateRange() {
+    var fromDate = new Date($('#fromDate').val());
+    var toDate = new Date($('#toDate').val());
+
+    $('#clientsTableBody tr').each(function () {
+        var invoiceDate = new Date($(this).find('td:nth-child(3)').text()); // Update the column index to 3
+
+        // Show the row if the invoice date is within the selected range
+        $(this).toggle(invoiceDate >= fromDate && invoiceDate <= toDate);
+    });
+}
+
+
+    // Trigger the filter when the To Date input changes
+    $('#toDate').on('change', function () {
+        filterDateRange();
+    });
+});
+</script>
+
+
+</body>
+</html>

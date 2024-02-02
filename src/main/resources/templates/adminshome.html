@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{css/adminshome.css}">
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+            </div>
+           
+            <div class="sbbuttons">
+                 <button sec:authorize="hasRole('ADMIN_ACCOUNTS')" id="button4" onclick="toggleSubMenu('submenu4')">Accounts Admin</button>
+                <ul class="submenu" id="submenu4">
+                    <li><a href=addinvoice>Add Invoice</a></li>
+                    <li><a href=viewinvoice>Manage Invoices</a></li>
+                </ul>
+			
+                <button sec:authorize="hasRole('ADMIN_SUPPORT')" id="button5" onclick="toggleSubMenu('submenu5')">Support Admin</button>
+                <ul class="submenu" id="submenu5">
+                    <li><a href=addsupport>Add Support Request</a></li>
+                    <li><a href=viewsupport>View Support Request</a></li>
+                </ul>
+			
+                <button sec:authorize="hasRole('ADMIN_PRODUCTS')" id="button6" onclick="toggleSubMenu('submenu6')">Product Admin</button>
+                <ul class="submenu" id="submenu6">
+                    <li><a href=addproduct>Add Product Request</a></li>
+                    <li><a href=viewproduct>View Product Request</a></li>
+                </ul> 
+               
+                <button sec:authorize="hasRole('ADMIN_CREATIVES')" id="button7" > <a href=creatives>Creatives Admin</a></button>
+			</div>
+           
+           
+        </div>
+
+            <div class="section">
+                <div class="dash-btns">
+                   
+                        
+                         <li><a sec:authorize="hasRole('ADMIN_SUPPORT')" href=supportadmindashboard>Support<br>Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('ADMIN_ACCOUNTS')" href=accountadmindashboard>Accounts<br>Dashboard</a></li>
+                    <li><a sec:authorize="hasRole('ADMIN_PRODUCTS')" href=productadmindashboard>Products<br>Dashboard</a></li>
+                    
+                    	 <li><a href=# id="password">Reset Password</a></li>
+                        <li><a href="logout" id="logout">LogOut</a></li>
+                       
+                </div>
+                <div class="greeting">
+                    <div class="faboimg">
+                        <img th:src="@{/images/Untitled_design__5_-removebg-preview.png}"  alt="">
+                    </div>
+                    <div class="text">
+                        <h3>For Fabulous Homes & Fabrics </h3>
+                    </div>              
+                </div>
+            </div>
+    </div>
+    <script>
+        function toggleSubMenu(submenuId) {
+    var submenus = document.querySelectorAll(".submenu");
+    submenus.forEach(function (submenu) {
+      if (submenu.id !== submenuId) {
+        submenu.classList.remove("show");
+      }
+    });
+  
+    var submenu = document.getElementById(submenuId);
+    submenu.classList.toggle("show");
+  }
+
+  function openPopup(popupId) {
+    var popup = document.getElementById(popupId);
+    if (popup) {
+        popup.style.display = "block";
+    }
+}
+
+function closePopup() {
+    isEditing = false;
+    var popups = document.querySelectorAll(".popup");
+    popups.forEach(function (popup) {
+      popup.style.display = "none";
+    });
+  }
+
+
+  function validateNumericInput(input) {
+    // Remove non-numeric characters from the input value
+    input.value = input.value.replace(/\D/g, '');
+}
+
+    </script>
+</body>
+</html>
