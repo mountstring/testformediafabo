@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/addclient.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="logo-section">
+        <img th:src="@{/images/fabo.logo.png}" alt="Your Logo">
+    </div>
+    <div class="popup" id="addClientsPopup"> 
+        <div class="card">
+            <div class="wrapper">
+                <div class="title">Add Client</div>
+               <form th:action="@{/clients}" th:object="${client}" method="POST">
+                     <div class="user-detail">
+                            <div class="input-box">
+                                <span class="details">Store Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" id="storeName" th:field="*{storeName}" placeholder="Enter Store Name" required >
+                            </div>
+
+                           <div class="input-box">
+							    <span class="details">Store Code <sup style="color:red;">*</sup> </span>
+							    <input type="text" th:field="*{storeCode}" placeholder="Enter Store Code" required oninput="clearErrorMessage()">
+							    <p id="error-message" th:if="${error}" style="color: red; font-size: small;" th:text="${error}"></p>
+							</div>
+                           							                           
+
+                            <div class="input-box">
+                                <span class="details">Owner Name <sup style="color:red;">*</sup> </span>
+                                <input type="text" th:field="*{ownerName}"  placeholder="Enter Owner Name" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details" id="mand">E-Mail <sup style="color:red;">*</sup> </span>
+                                <input type="email" th:field="*{email}" placeholder="Enter E-Mail" required >
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Owner Contact <sup style="color:red;">*</sup> </span>
+                                <input type="tel" th:field="*{ownerContact}" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter Owner Contact Number" oninput="validateNumericInput(this)" required>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">Store Contact <sup style="color:red;">*</sup> </span>
+                                <input type="tel" th:field="*{storeContact}" pattern="[6-9]{1}[0-9]{9}" placeholder="Enter Store Contact Number" oninput="validateNumericInput(this)" required>
+                            </div> 
+
+                            <div class="input-box">
+                                <span class="details">GST Number</span>
+                                <input type="tel" th:field="*{gstNo}" placeholder="Enter GST Number">
+                            </div>
+                            <div class="input-box">
+                                <span class="details">City <sup style="color:red;">*</sup> </span>
+                                <input type="text" id="city" th:field="*{city}" placeholder="Enter City" required >
+                            </div>
+
+                            
+                            <div class="input-box">
+                                <span class="details">State <sup style="color:red;">*</sup> </span>
+                                <input  id="state" th:field="*{state}" type="text" placeholder="Enter State" required >
+                            </div>
+
+                            <div class="input-box">
+                                <label for="details" class="details">Full Address <sup style="color:red;">*</sup> </label>
+                                 <textarea id="fullAddress"  th:field="*{fullAddress}" name="fullAddress" placeholder="Enter Full Address" required></textarea>
+                            </div>
+
+                            <div class="input-box">
+                                <span class="details">GMB Profile Link</span>
+                                <input type="text" th:field="*{gmbProfileLink}" placeholder="Enter GMB Profile Link">
+                            </div>
+
+                        </div>
+
+                    <div class="button homeclosebtn">
+                        <input type="submit" value="Submit">
+                        <div class="close-button">
+                            <button><a href=superadminHome>Close</a></button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+<script>
+function validateNumericInput(input) {
+    // Remove non-numeric characters from the input value
+    let numericValue = input.value.replace(/\D/g, '');
+
+    // Limit the numeric value to 10 characters
+    numericValue = numericValue.slice(0, 10);
+
+    // Update the input value with the processed numeric value
+    input.value = numericValue;
+}
+
+</script>
+
+<script th:inline="javascript">
+    function clearErrorMessage() {
+        var errorMessage = document.getElementById('error-message');
+        errorMessage.innerText = ''; // Clear the error message
+    }
+</script>
+
+<script th:inline="javascript">
+    const storeNameInput = document.getElementById('storeName');
+    const cityInput = document.getElementById('city');
+    const stateInput = document.getElementById('state');
+    const fullAddressInput = document.getElementById('fullAddress');
+
+    // Event listeners for store name, city, pincode, and state inputs
+    [storeNameInput, cityInput, stateInput].forEach(input => {
+        input.addEventListener('input', updateFullAddress);
+    });
+
+    // Function to update full address based on inputs
+    function updateFullAddress() {
+        const storeName = storeNameInput.value;
+        const city = cityInput.value;
+        const state = stateInput.value;
+
+        // Update the full address field
+        fullAddressInput.value = '' + storeName + ', ' + city + ', ' + state + '';
+    }
+    
+</script>
+
+
+</body>
+
+</html>

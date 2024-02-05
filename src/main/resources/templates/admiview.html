@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="adminview.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-page">
+        <!-- Side bar -->
+        <div class="sidebar">
+            <div class="logo-section">
+                <img src="fabo.logo.png" alt="Your Logo">
+            </div>
+            <div class="sbbuttons">
+                <button id="button1" onclick="toggleSubMenu('submenu1')">Client<br>Management</button>
+                <ul class="submenu" id="submenu1">
+                    <li onclick="openPopup('addClientsPopup')">Add Clients</li>
+                    <li > Manage Clients</li>
+                </ul>
+    
+                <button id="button2" onclick="toggleSubMenu('submenu2')">Client User <br>Management</button>
+                <ul class="submenu" id="submenu2">
+                    <li onclick="openPopup('addUserPopup')">Add User</li>
+                    <li > Manage Users</li>
+                </ul>
+    
+                <button id="button3" onclick="toggleSubMenu('submenu3')">Admin User <br>Management</button>
+                <ul class="submenu" id="submenu3">
+                    <li onclick="openPopup('addAdminPopup')">Add Admin</li>
+                    <li >ManageAdmins</li>
+                </ul>
+            </div>
+        </div>
+        <div class="section">
+            <div class="admin-details">
+                <div class="title">
+                    <h2>Admin-Details</h2>
+                </div>
+                <div class="form">
+                    <div class="form-dts">
+                        <span><b>Store Name :</b></span><br>
+                        <span><b>User Name :</b></span><br>
+                        <span><b>Phone Number :</b></span><br>
+                        <span><b>Accesses :</b></span><br>
+                    </div>
+                    
+                    <li><a href="adminslist.html">Close</a></li>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>

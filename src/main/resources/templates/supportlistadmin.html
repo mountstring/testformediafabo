@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/supportlistadmin.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
+    <title>FABO</title>
+</head>
+<body>
+    <div class="main-page">
+      
+
+
+        <div class="section">
+            <div class="tableform">
+                <div class="title">
+                    <h2>Support Request List</h2>
+                    <div class="close-button">
+                        <li><a href=adminshome>X</a></li>
+                    </div>
+                </div>
+                <div class="bar">
+                    <div class="filters">
+
+                        
+
+                       <div class="fil-2">
+						    <label>Select Store Code:</label>
+						    <input type="search" list="storeCodes" placeholder="Select Store Code" id="storesearch" name="storeCode" th:value="${selectedStoreCode}">
+						    <datalist id="storeCodes">
+						        <option value="" disabled selected>Select store code</option>
+						        <option th:each="code : ${storeCodes}" th:value="${code}" th:text="${code}"></option>
+						    </datalist>
+						</div>
+
+                        <div class="calender">
+                            <label for="fromDate">From Date:</label>
+                            <input type="date" id="fromDate">
+                        </div>
+                        <div class="calender">
+                            <label for="toDate">To Date:</label>
+                            <input type="date" id="toDate">
+                        </div>
+                      
+
+                        <div class="fil-3">
+                            <label for="supportdropdown">Select Support Type:</label>
+                            <input type="search" list="supportdropdown" placeholder="Select Support " id="invoiceSearch">
+                            <datalist id="supportdropdown">
+                                <option value="Machines">Machines</option>
+                                <option value="Washing">Washing</option>
+                                <option value="Ironing">Ironing</option>
+                                <option value="Printers">Printers</option>
+                                <option value="General">General</option>
+                            </datalist>
+                        </div>
+
+                      
+                        
+                        <div class="fil-4">
+                            <label for="statusDropdown">Select Status:</label>
+                            <input type="search" list="statusDropdown" placeholder="Select Status Type" id="satusSearch">
+                            <datalist id="statusDropdown">
+                            <!-- <select id="statusDropdown" required> -->
+                                <option value="New">New</option>
+                                <option value="Closed">Closed</option>
+                                <option value="Re-Open">Re-Open</option>
+                            </datalist>
+                        </div>
+
+
+                        <div class="search-container">
+                            <div class="search-icon" id="searchIcon">
+                              <i class="fas fa-search"></i>
+                            </div>
+                            <input type="search" class="search-bar" id="searchInput" placeholder="Search">
+                            <ul id="searchResults"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+								<th>Date</th>
+                                <th>Store Code</th>
+                                <th>Store Name</th>
+                                <th>Store Phone</th>
+                                <th>Support Request Type</th>
+                                <th>Issue Subject</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody">
+                          
+                           <tr th:each="addSupportAdmin : ${addSupportAdmins}">      
+                    <td th:text = "${addSupportAdmin.Date}"></td>
+                    <td th:text = "${addSupportAdmin.storeCode}"></td>   
+					<td th:text = "${addSupportAdmin.storeName}"></td>
+					<td th:text = "${addSupportAdmin.storeContact}"></td>
+					<td th:text = "${addSupportAdmin.supportRequestType}"></td>
+					<td th:text="${addSupportAdmin.issueSubject}"></td>
+                     <td th:text="${addSupportAdmin.status}"></td>
+                           
+                                
+                               <td>
+                                    <div class="action-menu">
+                                        <i class="fas fa-bars" onclick="toggleActionMenu(this)"></i>
+                                        <div class="dropdown-menu">
+                                            <a th:href = "@{/clientstoreinfo/{id}(id=${addSupportAdmin.id})}" >View Store Contact Info</a>
+                                            <a th:href = "@{/supportlistaddmincapurepop/{id}(id=${addSupportAdmin.id})}" style="cursor: pointer;">Add Comments</a>
+                                            <a th:href = "@{/inprogress/{id}(id=${addSupportAdmin.id})}">Move To Inprogress</a>
+                                            <a th:href = "@{/closed/{id}(id=${addSupportAdmin.id})}">Close Support Request</a>
+                                            <a th:href = "@{/reopen/{id}(id=${addSupportAdmin.id})}">Re-Open Support Request</a>
+                                             <a th:href = "@{/supportDetails/{id}(id=${addSupportAdmin.id})}" >View Detailed Info</a>
+                                            <a th:href = "@{/deleterequest/{id}(id=${addSupportAdmin.id})}"onclick="showDeleteConfirmationPopup()">Delete Support Request</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+  			<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+		
+		<script>
+ 			$(document).ready(function () {
+ 			    // Function to filter the table based on the selected store code
+ 			    function filterTable() {
+ 			        var selectedStoreCode = $('#storesearch').val().toLowerCase();
+
+ 			        $('#clientsTableBody tr').filter(function () {
+ 			            var storeCode = $(this).find('td:nth-child(2)').text().toLowerCase();
+ 			            $(this).toggle(storeCode.indexOf(selectedStoreCode) > -1);
+ 			        });
+ 			    }
+
+ 			   // Function to filter the table based on the selected support type
+ 			    function filterSupport() {
+ 			        var selectedSupport = $('#invoiceSearch').val().toLowerCase();
+
+ 			        $('#clientsTableBody tr').filter(function () {
+ 			            var supportType = $(this).find('td:nth-child(5)').text().toLowerCase(); // Update the column index to 5
+ 			            $(this).toggle(supportType.indexOf(selectedSupport) > -1);
+ 			        });
+ 			    }
+
+ 			    // Function to filter the table based on the selected status
+ 			    function filterStatus() {
+ 			        var selectedStatus = $('#satusSearch').val().toLowerCase(); // Correct the ID to satusSearch
+
+ 			        $('#clientsTableBody tr').filter(function () {
+ 			            var status = $(this).find('td:nth-child(7)').text().toLowerCase(); // Update the column index to 7
+ 			            $(this).toggle(status.indexOf(selectedStatus) > -1);
+ 			        });
+ 			    }
+
+
+ 			    // Trigger the filter when the store code input changes
+ 			    $('#storesearch').on('input', function () {
+ 			        filterTable();
+ 			    });
+
+ 			   // Trigger the filter when the support search input changes
+ 			    $('#invoiceSearch').on('input', function () {
+ 			        filterSupport();
+ 			    });
+
+ 			    // Trigger the filter when the status search input changes
+ 			    $('#satusSearch').on('input', function () {
+ 			        filterStatus();
+ 			    });
+ 			});
+				
+</script>
+
+<script>
+$(document).ready(function () {
+ 
+    // Function to filter the table based on the selected date range
+    function filterDateRange() {
+        var fromDate = new Date($('#fromDate').val()).getTime();
+        var toDate = new Date($('#toDate').val()).getTime();
+
+        $('#clientsTableBody tr').filter(function () {
+            var invoiceDate = new Date($(this).find('td:nth-child(1)').text()).getTime();
+
+            // Show the row if the invoice date is within the selected range
+            $(this).toggle(invoiceDate >= fromDate && invoiceDate <= toDate);
+        });
+    }
+
+
+    // Trigger the filter when the To Date input changes
+    $('#toDate').on('change', function () {
+        filterDateRange();
+    });
+
+});
+</script>
+
+
+
+<script>
+$(document).ready(function () {
+    // Attach a keyup event to the search input
+    $('#searchInput').keyup(function () {
+        // Get the value from the search input
+        var searchTerm = $(this).val().toLowerCase();
+
+        // Filter the table rows based on the search term
+        $('#clientsTableBody tr').filter(function () {
+            var rowText = $(this).text().toLowerCase();
+            $(this).toggle(rowText.indexOf(searchTerm) > -1);
+        });
+    });
+});
+</script>
+
+
+
+
+</body>
+</html>
